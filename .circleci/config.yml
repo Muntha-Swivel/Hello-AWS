@@ -47,8 +47,8 @@ jobs:
           name: Deploy to EC2
           command: |
             # Update the application on the EC2 instance
-            scp -i $EC2_KEY_PAIR -r build ec2-user@$EC2_INSTANCE_URL:~/app
-            ssh -i $EC2_KEY_PAIR ec2-user@$EC2_INSTANCE_URL 'cd app && npm install && pm2 start server.js'
+            ssh -i "hello-aws-key.pem" ec2-user@ec2-43-207-82-185.ap-northeast-1.compute.amazonaws.com
+            mkdir hello circleCi
 
 workflows:
   version: 2.1
@@ -58,3 +58,6 @@ workflows:
       - deploy:
           requires:
             - build
+
+            #  scp -i $EC2_KEY_PAIR -r build ec2-user@$EC2_INSTANCE_URL:~/app
+            # ssh -i $EC2_KEY_PAIR ec2-user@$EC2_INSTANCE_URL 'cd app && npm install && pm2 start server.js'
