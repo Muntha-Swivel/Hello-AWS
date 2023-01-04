@@ -29,7 +29,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: yarn test
+      - run: Run NPM Tests
       - run: npm run build
   deploy:
     docker:
