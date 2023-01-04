@@ -1,21 +1,62 @@
-# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
+# # This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
+# version: 2.1
+
+# # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# # See: https://circleci.com/docs/2.0/orb-intro/
+# orbs:
+#   node: circleci/node@4.7
+
+# # Invoke jobs via workflows
+# # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+# workflows:
+#   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+#     # Inside the workflow, you define the jobs you want to run.
+#     jobs:
+#       - node/test:
+#           # This is the node version to use for the `cimg/node` tag
+#           # Relevant tags can be found on the CircleCI Developer Hub
+#           # https://circleci.com/developer/images/image/cimg/node
+#           version: '16.10'
+#           # If you are using yarn, change the line below from "npm" to "yarn"
+#           pkg-manager: npm
+
 version: 2.1
 
-# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
-# See: https://circleci.com/docs/2.0/orb-intro/
-orbs:
-  node: circleci/node@4.7
+jobs:
+  build:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm test
+      - run: npm run build
+  deploy:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+      - run:
+          name: Set up AWS credentials
+          command: |
+            mkdir -p ~/.aws
+            echo "[default]" > ~/.aws/credentials
+            echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
+            echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
+            echo "[default]" > ~/.aws/config
+            echo "region = $AWS_REGION" >> ~/.aws/config
+      - run:
+          name: Deploy to EC2
+          command: |
+            # Update the application on the EC2 instance
+            scp -i $EC2_KEY_PAIR -r build ec2-user@$EC2_INSTANCE_URL:~/app
+            ssh -i $EC2_KEY_PAIR ec2-user@$EC2_INSTANCE_URL 'cd app && npm install && pm2 start server.js'
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  version: 2.1
+  build-and-deploy:
     jobs:
-      - node/test:
-          # This is the node version to use for the `cimg/node` tag
-          # Relevant tags can be found on the CircleCI Developer Hub
-          # https://circleci.com/developer/images/image/cimg/node
-          version: '16.10'
-          # If you are using yarn, change the line below from "npm" to "yarn"
-          pkg-manager: npm
+      - build
+      - deploy:
+          requires:
+            - build
