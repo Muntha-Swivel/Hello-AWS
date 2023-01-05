@@ -25,7 +25,7 @@ version: 2.1
 jobs:
   deploy:
     docker:
-      - image: amazon/aws-cli:2.x
+      - image: circleci/node:10.16.3
     steps:
       - add_ssh_keys:
           fingerprints:
