@@ -23,41 +23,21 @@
 version: 2.1
 
 jobs:
-  build:
-    docker:
-      - image: circleci/node:10.16.3
-    steps:
-      - checkout
-      - run: npm install
   deploy:
     docker:
-      - image: circleci/node:10.16.3
+      - image: amazon/aws-cli:2.x
     steps:
-      - checkout
-      - run:
-          name: Set up AWS credentials
-          command: |
-            mkdir -p ~/.aws
-            echo "[default]" > ~/.aws/credentials
-            echo "aws_access_key_id = $AWS_ACCESS_KEY_ID" >> ~/.aws/credentials
-            echo "aws_secret_access_key = $AWS_SECRET_ACCESS_KEY" >> ~/.aws/credentials
-            echo "[default]" > ~/.aws/config
-            echo "region = $AWS_REGION" >> ~/.aws/config
+      - add_ssh_keys:
+          fingerprints:
+            - "c7:0c:17:c3:90:f9:30:96:4a:38:de:19:ef:67:0d:34:21:2b:b2:58	"
       - run:
           name: Deploy to EC2
           command: |
-            # Update the application on the EC2 instance
-            ssh -i "hello-aws-key.pem" ec2-user@ec2-43-207-82-185.ap-northeast-1.compute.amazonaws.com
-            mkdir hello circleCi
+            scp -r -i ~/.ssh/deploy_key /helloCircle/app.js ec2-user@ec2-123-456-789-123.compute-1.amazonaws.com:/var/www/html
+            ssh -i ~/.ssh/deploy_key ec2-user@ec2-123-456-789-123.compute-1.amazonaws.com "sudo service nginx restart"
 
 workflows:
   version: 2.1
-  build-and-deploy:
+  deploy:
     jobs:
-      - build
-      - deploy:
-          requires:
-            - build
-
-            #  scp -i $EC2_KEY_PAIR -r build ec2-user@$EC2_INSTANCE_URL:~/app
-            # ssh -i $EC2_KEY_PAIR ec2-user@$EC2_INSTANCE_URL 'cd app && npm install && pm2 start server.js'
+      - deploy
