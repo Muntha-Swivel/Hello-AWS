@@ -1,43 +1,26 @@
-# # This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
-# version: 2.1
-
-# # Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
-# # See: https://circleci.com/docs/2.0/orb-intro/
-# orbs:
-#   node: circleci/node@4.7
-
-# # Invoke jobs via workflows
-# # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
-# workflows:
-#   sample: # This is the name of the workflow, feel free to change it to better match your workflow.
-#     # Inside the workflow, you define the jobs you want to run.
-#     jobs:
-#       - node/test:
-#           # This is the node version to use for the `cimg/node` tag
-#           # Relevant tags can be found on the CircleCI Developer Hub
-#           # https://circleci.com/developer/images/image/cimg/node
-#           version: '16.10'
-#           # If you are using yarn, change the line below from "npm" to "yarn"
-#           pkg-manager: npm
-
+# CircleCI configuration file
 version: 2.1
 
 jobs:
-  deploy:
+  # Job one with a unique name
+  say_hello:
     docker:
-      - image: circleci/node:10.16.3
+      - image: cimg/base:2022.05
+
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - "c7:0c:17:c3:90:f9:30:96:4a:38:de:19:ef:67:0d:34:21:2b:b2:58	"
-      - run:
-          name: Deploy to EC2
-          command: |
-            scp -r -i ~/.ssh/deploy_key /helloCircle/app.js ec2-user@ec2-123-456-789-123.compute-1.amazonaws.com:/var/www/html
-            ssh -i ~/.ssh/deploy_key ec2-user@ec2-123-456-789-123.compute-1.amazonaws.com "sudo service nginx restart"
+      - run: echo "Say hello to YAML!"
+  # Job two with a unique name
+  say_goodbye:
+    docker:
+      - image: cimg/base:2022.05
+
+    steps:
+      - run: echo "Say goodbye to YAML!"
 
 workflows:
-  version: 2.1
-  deploy:
+  # Name of workflow
+  hello_and_goodbye:
+    # List of jobs that will run
     jobs:
-      - deploy
+      - say_hello
+      - say_goodbye
