@@ -38,7 +38,8 @@ jobs:
           echo 'hello world'
 
 workflows:
-  version: 2
-  print:
+  # Name of workflow
+  hello_and_goodbye:
+    # List of jobs that will run
     jobs:
       - print-hello
