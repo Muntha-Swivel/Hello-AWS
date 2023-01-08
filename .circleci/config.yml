@@ -27,37 +27,14 @@ jobs:
     docker:
       - image: circleci/node:10.16.3
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "c7:0c:17:c3:90:f9:30:96:4a:38:de:19:ef:67:0d:34:21:2b:b2:58"
       - run:
           name: Deploy to EC2
           command: |
-            ssh -i "-----BEGIN RSA PRIVATE KEY-----
-            MIIEoQIBAAKCAQEAo3XTwCGQfQxAjuCCB2ds6bPLJeshTmnrUMZo3wcrokVHb+AW
-            aZyt4MPhO4YSHll2L4U045xtWTQymm8Mu2n4KLf15VQD6eZSFE63G04u/+TElZvU
-            uiSPGuP39maFIgVd2jEJqzQcA6jQXKIO7jM0mDS05Wqy/DJfoFasL0LU+YDiJaWB
-            IsVkvw7J8D7pBQwpz0e5w62Blcp95DID6TIAzikkUUgcwvX5Dm3M0tqmp8P+TPQO
-            7Hu42QVvAh3RaB9R637zbsSI+9L09trYKqUb88rREGjnbUSa0RF7WTFv3yHBBMlz
-            CmJ18l/fzI3+UHt2JBzIuyCLRA8+6PCAZvwlkwIDAQABAoIBAAvP9/1qb4aZ3BB3
-            KO5gCv7Yf1W+KCoCfX7Y17tGSWDwoLj0+KmpKOeVQDGM/sIytNe6SJgqNby8iOug
-            GstwXP6UTLDF4YKFomjVR2YxwDO91Hb7S+QnwC+xSboErppGyQF7ibdVjLC3Alev
-            XmTYTnSxWmE51LVk7oQnv0mrCrj8+XtJKwPTntLb+kGo2okoHYm8Ztt40Qoqwxig
-            9B+RdjVl1b7TSAYe/yTfNykiRl1Qbpqx4pH/her124d8T2+/RMB7u66hWu830GQS
-            yR2+EFSCGx+moVfmi5Yvm1gGiti27FOUOzT93cetXmyWWpXTyJirXhgIm4FmGCua
-            s2VcnAECgYEA7EEOZc1vhOzkm8Jx0nW4+vjV9Qfni6VsLROFJxxEy+Dw+Aww7vCQ
-            AtZHh9UOK8DX29sfid2ly24Wr87bWNTdQ6zDPL7hGliPNd7jcbrE10UsAB3lC7tx
-            TkyzDrfc534dNPmC1e0fxkhf8wD8tbsq0uIzEfpOEJudT1P2soNka7cCgYEAsR9C
-            AmoqfOBIm0eUNnOBhhbFoNkyQeLB7E66AtOLKi1u7ASaRKo8Kebw3MGc8Iu+hHAS
-            8BdfA1ZneieXt+xouzs/YV7AUhD0MzUzOkzksmGEBnlW1NrpmM1G/YPSpdMVkmUx
-            Dscl/u6WFOfZi2JgSl49PX0AICvRaypxNatgTQUCf1erzKv6kGfDgRJMFfEDvqFj
-            tgI37LTlrj8L/12EIAOIdeOWopIIs2haHDFL3vZdmbz8k7eViPD06XZUTRGp7HIw
-            qkLgkqg0NPDIxZ5usJ0yDiH89gJkjKeBzvCnSlKdejkuXl8En8X1FaYXt6+4xSt8
-            xXbmbBG9raLChcm4+IsCgYAqv1mGDattcg/z8gWSUrQ68XoHBQR9JEYbSzDXh8i5
-            iDeSHNZCpjdZAZS2IsBGyeNUQVxAt9NFke/tamrSh+sK7RSx4lVWOSNGzJstgetc
-            Je7gRR6wxpjEOR7eBperT9OP/n4li+jeqyRrrT0yx65npHDxSx7hpNGpJJgoFNFs
-            JQKBgQDSpjb0Z1O31lSiNVp5ZCjABNjbg2QjvnzdOeucQIZeu9sxpWbiA+/LDRPE
-            dlaixaK99OQ/wfXGJ30AuS8hlOH9tq1/2ukVke/FaQMMdr2KKxRsEqvZWW5ioRqy
-            s7ZdKeeIxPZju9kF2Yxwn/XI4aIcDTw+xd6Jy37fJgSBhEdJmA==
-            -----END RSA PRIVATE KEY-----" ec2-user@ec2-54-64-192-142.ap-northeast-1.compute.amazonaws.com
-            "mkdir hello-circleci"
+            ssh -i ec2-user@ec2-54-64-192-142.ap-northeast-1.compute.amazonaws.com
+
 workflows:
   version: 2.1
   deploy:
