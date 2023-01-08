@@ -1,11 +1,11 @@
 version: 2.1
 
-orbs:
-  aws-cli: circleci/aws-cli@1.3.3
-
 jobs:
   build:
-    executor: aws-cli/ec2
+    executor:
+      name: machine
+      machine:
+        image: ami-12345678
     steps:
       - run:
           command: 'echo "Hello, World!"'
