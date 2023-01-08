@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            ssh  54.64.192.142
+            ssh -o StrictHostKeyChecking=no 54.64.192.142
 
 workflows:
   version: 2.1
