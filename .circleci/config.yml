@@ -39,7 +39,6 @@ jobs:
           command: |
             mkdir Hello-Circleci
 workflows:
-  version: 2.1
   deploy:
     jobs:
       - deploy
