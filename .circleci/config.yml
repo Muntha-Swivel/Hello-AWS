@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            ssh -i "ec2-user@ec2-54-64-192-142.ap-northeast-1.compute.amazonaws.com"
+            ssh  ec2-user@ec2-54-64-192-142.ap-northeast-1.compute.amazonaws.com
 
 workflows:
   version: 2.1
