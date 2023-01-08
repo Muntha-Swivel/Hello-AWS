@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            echo 'hello world'
+            mkdir hello-circleCi
 
 workflows:
   version: 2.1
