@@ -27,6 +27,9 @@ jobs:
     docker:
       - image: circleci/node:10.16.3
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - "SO:ME:FIN:G:ER:PR:IN:T"
       - run:
           name: Deploy to EC2
           command: |
@@ -37,3 +40,5 @@ workflows:
   deploy:
     jobs:
       - deploy
+# c1:c2:91:02:f8:5c:e1:f4:39:c5:b4:3f:3b:fe:12:45
+
