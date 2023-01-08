@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            mkdir hello-circleCi
+            ssh $SSH_USER@$SSH_HOST "mkdir hello-circleci"
 
 workflows:
   version: 2.1
