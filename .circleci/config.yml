@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Deploy to EC2
           command: |
-            ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no 54.64.192.142
+            ssh $SSH_HOST
 
 workflows:
   version: 2.1
