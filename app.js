@@ -11,5 +11,5 @@ app.listen(port, () => {
 });
 
 app.get("/", (req, res) => {
-  res.status(200).send("Hello AWS");
+  res.status(200).send("Hello World AWS");
 });
