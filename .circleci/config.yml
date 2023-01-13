@@ -23,8 +23,7 @@
 version: 2.1
 
 orbs:
-  aws-s3: circleci/aws-s3@x.y.z
-
+  aws-ecs: circleci/aws-ecs@3.2.0
 jobs:
   deploy:
     docker:
